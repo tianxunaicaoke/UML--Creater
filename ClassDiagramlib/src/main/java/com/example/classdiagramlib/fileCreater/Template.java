@@ -1,0 +1,85 @@
+package com.example.classdiagramlib.fileCreater;
+
+import java.util.List;
+
+public class Template {
+    public static final String START = "@startuml";
+    public static final String END = "@enduml";
+    public static final String LINE_FEED = "\n";
+    public static final String END_PRACKET = "}";
+    public static final String START_PRACKET = "{";
+    public static final String QUOTATION = "\"";
+    public static final String CLASS = "class ";
+    public static final String INTERFACE = "interface ";
+    public static final String EXTENDS = " extends ";
+    public static final String NODE = " node ";
+    public static final String PACKAGE = " package ";
+    public static final String IMPLEMENT = " implements ";
+    public static final String COMMA =" , ";
+    public static final String Composition = " *-- ";
+
+
+    public static String classSuperTemplate(String target, String superClass, List<String> superInterface) {
+        StringBuilder stringBuffer = new StringBuilder(CLASS + target);
+        if (superClass != null) {
+            stringBuffer.append(EXTENDS)
+                    .append(superClass);
+        }
+        if (superInterface != null && !superInterface.isEmpty()) {
+            stringBuffer.append(IMPLEMENT);
+            for (int i = 0; i < superInterface.size(); i++) {
+                stringBuffer.append(superInterface.get(i));
+                if (i != superInterface.size() - 1) {
+                    stringBuffer.append(COMMA);
+                }
+            }
+        }
+        return stringBuffer.toString();
+    }
+
+    public static String classHoldTemplate(String target, String[] hold) {
+        StringBuilder stringBuffer = new StringBuilder("");
+        if (hold != null) {
+            for (String s : hold) {
+                stringBuffer.append("note 'hold' as")
+                        .append(target).append(s)
+                        .append(LINE_FEED)
+                        .append(target)
+                        .append(" --> ")
+                        .append(target).append(s)
+                        .append(LINE_FEED)
+                        .append(target)
+                        .append(s)
+                        .append(" --> ")
+                        .append(s);
+            }
+        }
+        return stringBuffer.toString();
+    }
+
+    public static String interfaceSuperTemplate(String target, String[] superClass) {
+        StringBuilder stringBuffer = new StringBuilder(INTERFACE + target);
+        if (superClass != null && superClass.length > 0) {
+            stringBuffer.append(EXTENDS);
+            for (int i = 0; i < superClass.length; i++) {
+                stringBuffer.append(superClass[i]);
+                if (i != superClass.length - 1) {
+                    stringBuffer.append(COMMA);
+                }
+            }
+        }
+        return stringBuffer.toString();
+    }
+
+    public static String nodeTemplate(String nodeName) {
+        return NODE +
+                QUOTATION + nodeName + QUOTATION +
+                START_PRACKET;
+    }
+
+    public static String packageTemplate(String packageName) {
+        return PACKAGE +
+                QUOTATION + packageName + QUOTATION +
+                START_PRACKET;
+    }
+}
