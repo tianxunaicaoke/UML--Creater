@@ -1,4 +1,7 @@
 package com.example.uml_create;
 
-public interface AI {
+import com.example.umlannotation.IncludeClass;
+
+@IncludeClass(umlNote = "this is a interface ")
+public interface AI extends AK{
 }

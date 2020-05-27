@@ -1,9 +1,9 @@
 package com.example.classdiagramlib.fileCreater;
 
 import com.example.classdiagramlib.bean.UMLClass;
-import com.example.classdiagramlib.bean.UMLImplement;
 import com.example.classdiagramlib.bean.UMLLink;
 import com.example.classdiagramlib.bean.UMLNode;
+import com.example.classdiagramlib.bean.UMLNote;
 import com.example.classdiagramlib.bean.UMLPackage;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -22,8 +22,9 @@ import static com.example.classdiagramlib.fileCreater.Template.*;
 
 public class TxtFileGenerator implements UMLFileGenerator {
 
-    List<UMLNode> list;
-    List<UMLLink> links = new ArrayList<>();
+    private List<UMLNode> list = new ArrayList<>();
+    private List<UMLLink> links = new ArrayList<>();
+
     @Override
     public void setNode(List<UMLNode> list) {
         this.list = list;
@@ -33,7 +34,7 @@ public class TxtFileGenerator implements UMLFileGenerator {
     public void writeToFile(Filer filer) {
         Writer writer = null;
         try {
-            FileObject filerSourceFile = filer.createResource(StandardLocation.CLASS_OUTPUT,"UML","uml.puml");
+            FileObject filerSourceFile = filer.createResource(StandardLocation.CLASS_OUTPUT, "UML", "uml.puml");
             writer = filerSourceFile.openWriter();
             writer.write(convert());
             writer.flush();
@@ -65,8 +66,8 @@ public class TxtFileGenerator implements UMLFileGenerator {
 
     private String convertLink() {
         StringBuilder stringBuilder = new StringBuilder();
-        if(!links.isEmpty()){
-            for (UMLLink link:links){
+        if (!links.isEmpty()) {
+            for (UMLLink link : links) {
                 stringBuilder.append(link.toUMLString())
                         .append(LINE_FEED);
             }
@@ -76,7 +77,7 @@ public class TxtFileGenerator implements UMLFileGenerator {
 
     private String convertNodeToString(UMLNode node) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(Template.nodeTemplate(node.getName()))
+        stringBuilder.append(nodeTemplate(node.getName()))
                 .append(LINE_FEED);
         List<UMLPackage> packages = node.getPackages();
         if (packages != null && !packages.isEmpty()) {
@@ -92,7 +93,8 @@ public class TxtFileGenerator implements UMLFileGenerator {
 
     private String convertPackageToString(@NonNull UMLPackage umlPackage) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(Template.packageTemplate(umlPackage.getName()))
+        stringBuilder.append(SPACE)
+                .append(packageTemplate(umlPackage.getName()))
                 .append(LINE_FEED);
         List<UMLClass> classes = umlPackage.getClasses();
         if (classes != null) {
@@ -108,22 +110,23 @@ public class TxtFileGenerator implements UMLFileGenerator {
 
     private String convertClassToString(@NonNull UMLClass umlClass) {
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(SPACE + SPACE);
         List<UMLLink> umlLinks = umlClass.getLinks();
-        boolean flag = false;
-
-        if (umlLinks != null && !umlLinks.isEmpty()) {
-            for (UMLLink item : umlLinks) {
-                if (item instanceof UMLImplement) {
-                    stringBuilder.append(item.toUMLString())
-                            .append(LINE_FEED);
-                    flag = true;
-                }else{
-                    links.add(item);
-                }
-            }
+        if (umlClass.getElement().getKind().isClass()) {
+            stringBuilder.append(classSuperTemplate(umlClass.getName(), null, null));
+        } else if (umlClass.getElement().getKind().isInterface()) {
+            stringBuilder.append(interfaceSuperTemplate(umlClass.getName(), null));
         }
-        if(!flag){
-            stringBuilder.append(Template.classSuperTemplate(umlClass.getName(),null,null));
+        stringBuilder.append(LINE_FEED);
+        if (!umlLinks.isEmpty()) {
+            links.addAll(umlLinks);
+        }
+        if (!umlClass.getNotes().isEmpty()) {
+            for (UMLNote note : umlClass.getNotes()) {
+                stringBuilder.append(SPACE + SPACE)
+                        .append(noteTemplate(umlClass.getName(), note.getNote()))
+                        .append(LINE_FEED);
+            }
         }
         return stringBuilder.toString();
     }

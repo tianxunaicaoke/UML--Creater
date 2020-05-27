@@ -5,6 +5,6 @@ import static com.example.classdiagramlib.fileCreater.Template.Composition;
 public class UMLComposition extends UMLLink {
     @Override
     public String toUMLString() {
-        return origin + Composition + target;
+        return getOrigin() + Composition + getTarget();
     }
 }

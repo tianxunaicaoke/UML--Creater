@@ -3,9 +3,12 @@ package com.example.classdiagramlib.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.lang.model.element.Element;
+
 public class UMLClass {
     private String name;
     private String fullName;
+    private Element element;
     private List<UMLLink> links = new ArrayList<>();
     private List<UMLNote> notes = new ArrayList<>();
 
@@ -33,6 +36,14 @@ public class UMLClass {
         notes.add(note);
     }
 
+    public Element getElement() {
+        return element;
+    }
+
+    public void setElement(Element element) {
+        this.element = element;
+    }
+
     public List<UMLLink> getLinks() {
         return links;
     }
@@ -40,5 +51,4 @@ public class UMLClass {
     public List<UMLNote> getNotes() {
         return notes;
     }
-
 }

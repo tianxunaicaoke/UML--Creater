@@ -6,16 +6,20 @@ public class Template {
     public static final String START = "@startuml";
     public static final String END = "@enduml";
     public static final String LINE_FEED = "\n";
+    public static final String LINE_FEED_1 = "\\n";
     public static final String END_PRACKET = "}";
     public static final String START_PRACKET = "{";
     public static final String QUOTATION = "\"";
     public static final String CLASS = "class ";
     public static final String INTERFACE = "interface ";
     public static final String EXTENDS = " extends ";
-    public static final String NODE = " node ";
-    public static final String PACKAGE = " package ";
+    public static final String NODE = "node ";
+    public static final String NOTE = "note top of ";
+    public static final String PACKAGE = "package ";
     public static final String IMPLEMENT = " implements ";
     public static final String COMMA =" , ";
+    public static final String COLON =" : ";
+    public static final String SPACE =" ";
     public static final String Composition = " *-- ";
 
 
@@ -69,6 +73,22 @@ public class Template {
             }
         }
         return stringBuffer.toString();
+    }
+
+    public static String noteTemplate(String mClass, String note) {
+        String[] chars = note.split(" ");
+        int size = 4;
+        while (size < chars.length - 1) {
+            chars[size] += LINE_FEED_1;
+            size += 4;
+        }
+
+        StringBuilder out = new StringBuilder();
+        for (String string :
+                chars) {
+            out.append(string).append(" ");
+        }
+        return NOTE + mClass + COLON + out;
     }
 
     public static String nodeTemplate(String nodeName) {

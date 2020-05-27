@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.CLASS)
 public @interface IncludeClass {
-    String umlNode() default "David";
-    String umlPackage() default "Kevin";
+    String umlNode() default "Hello";
+    String umlPackage() default "David";
+    String umlNote() default "";
 }
