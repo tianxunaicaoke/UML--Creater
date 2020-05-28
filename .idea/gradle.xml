@@ -9,7 +9,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ClassDiagramlib" />
-            <option value="$PROJECT_DIR$/UMLAnnotation" />
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>

@@ -1,5 +1,5 @@
 apply plugin: 'java-library'
-apply plugin: 'com.novoda.bintray-release'
+//apply plugin: 'com.novoda.bintray-release'
 
 
 dependencies {
@@ -8,12 +8,12 @@ dependencies {
     implementation 'com.google.auto.service:auto-service:1.0-rc4'
 }
 
-publish {
-    userOrg = 'xtian'
-    groupId = 'com.example.xtian'
-    artifactId = 'QuickUML'
-    publishVersion = 'v1.0.0'
-}
+//publish {
+//    userOrg = 'xtian'
+//    groupId = 'com.example.xtian'
+//    artifactId = 'QuickUML'
+//    publishVersion = 'v1.0.0'
+//}
 
 sourceCompatibility = "7"
 targetCompatibility = "7"
