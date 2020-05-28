@@ -1,10 +1,18 @@
 apply plugin: 'java-library'
+apply plugin: 'com.novoda.bintray-release'
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.squareup:javapoet:1.11.1'
     implementation 'com.google.auto.service:auto-service:1.0-rc4'
-    implementation project(':UMLAnnotation')
+}
+
+publish {
+    userOrg = 'xtian'
+    groupId = 'com.example.xtian'
+    artifactId = 'QuickUML'
+    publishVersion = 'v1.0.0'
 }
 
 sourceCompatibility = "7"

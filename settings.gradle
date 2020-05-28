@@ -1,1 +1,1 @@
-include ':app', ':UMLAnnotation', ':ClassDiagramlib'
+include ':app'

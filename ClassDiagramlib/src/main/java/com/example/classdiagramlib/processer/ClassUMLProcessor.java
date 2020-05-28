@@ -10,7 +10,7 @@ import com.example.classdiagramlib.bean.UMLNote;
 import com.example.classdiagramlib.bean.UMLPackage;
 import com.example.classdiagramlib.strategy.ProcessChecker;
 import com.example.classdiagramlib.util.ProcessorUtil;
-import com.example.umlannotation.IncludeClass;
+import com.example.classdiagramlib.annotation.IncludeClass;
 
 import java.util.ArrayList;
 import java.util.HashMap;

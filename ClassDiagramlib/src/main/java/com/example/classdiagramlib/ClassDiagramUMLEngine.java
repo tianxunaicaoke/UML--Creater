@@ -3,7 +3,7 @@ package com.example.classdiagramlib;
 import com.example.classdiagramlib.exception.UMLAnnotationNotOnClassException;
 import com.example.classdiagramlib.strategy.UMLStrategy;
 import com.example.classdiagramlib.strategy.ClassUMLStrategy;
-import com.example.umlannotation.IncludeClass;
+import com.example.classdiagramlib.annotation.IncludeClass;
 import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
@@ -38,7 +38,6 @@ public class ClassDiagramUMLEngine extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
         List<Element> list = new ArrayList<>(roundEnvironment.getElementsAnnotatedWith(IncludeClass.class));
         UMLStrategy UMLStrategy = new ClassUMLStrategy();
-        UMLStrategy.setEnvironment(roundEnvironment);
         try {
             UMLStrategy.createUML(list);
             UMLStrategy.generateToFile(filer);
