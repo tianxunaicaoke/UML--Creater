@@ -31,7 +31,8 @@ public class ClassUMLStrategy implements UMLStrategy {
     }
 
     @Override
-    public void generateToFile(Filer filer) {
-        umlFileGenerator.writeToFile(filer);
+    public void generateFileAndPNG(Filer filer) {
+        umlFileGenerator.writeFile(filer);
+        umlFileGenerator.createPNG();
     }
 }

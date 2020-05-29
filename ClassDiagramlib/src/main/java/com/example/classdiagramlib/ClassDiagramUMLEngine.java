@@ -40,7 +40,7 @@ public class ClassDiagramUMLEngine extends AbstractProcessor {
         UMLStrategy UMLStrategy = new ClassUMLStrategy();
         try {
             UMLStrategy.createUML(list);
-            UMLStrategy.generateToFile(filer);
+            UMLStrategy.generateFileAndPNG(filer);
         } catch (UMLAnnotationNotOnClassException e) {
             error(e.getElement(), e.getMessage());
         } catch (Exception e) {

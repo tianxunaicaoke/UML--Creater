@@ -5,11 +5,16 @@ import com.example.classdiagramlib.bean.UMLLink;
 import com.example.classdiagramlib.bean.UMLNode;
 import com.example.classdiagramlib.bean.UMLNote;
 import com.example.classdiagramlib.bean.UMLPackage;
+import com.example.classdiagramlib.classLoader.DynamicClassPathLoader;
+
+import net.sourceforge.plantuml.Run;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +29,7 @@ public class TxtFileGenerator implements UMLFileGenerator {
 
     private List<UMLNode> list = new ArrayList<>();
     private List<UMLLink> links = new ArrayList<>();
+    private URI plantUMLURI;
 
     @Override
     public void setNode(List<UMLNode> list) {
@@ -31,10 +37,11 @@ public class TxtFileGenerator implements UMLFileGenerator {
     }
 
     @Override
-    public void writeToFile(Filer filer) {
+    public void writeFile(Filer filer) {
         Writer writer = null;
         try {
             FileObject filerSourceFile = filer.createResource(StandardLocation.CLASS_OUTPUT, "UML", "uml.puml");
+            plantUMLURI = filerSourceFile.toUri();
             writer = filerSourceFile.openWriter();
             writer.write(convert());
             writer.flush();
@@ -48,6 +55,24 @@ public class TxtFileGenerator implements UMLFileGenerator {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    @Override
+    public void createPNG() {
+        if (plantUMLURI == null) {
+            return;
+        }
+        String[] classPath = {"F:\\Create-UML\\UML--Creater\\ClassDiagramlib\\libs\\plantuml.jar"};
+        DynamicClassPathLoader classPathLoader = new DynamicClassPathLoader(classPath);
+        classPathLoader.loadClass();
+        try {
+            String[] args = {plantUMLURI.toURL().toString().substring(6)};
+            Run.main(args);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

@@ -39,6 +39,8 @@ public class DynamicClassPathLoader{
             for (File tmp : tmps) {
                 loopDirs(tmp);
             }
+        }else if(file.getName().endsWith("jar")){
+           addURL(file);
         }
     }
 

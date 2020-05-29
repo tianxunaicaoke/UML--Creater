@@ -1,4 +1,4 @@
-# UML- Creater
+# Quick - UML
 ### Getting Start
 This tool will help developer to create PlantUML automatic by add annotation. This tool is working for java project.
 
@@ -27,7 +27,11 @@ node "Hello"{
 }
 @enduml
 ~~~
+>And the png will also created under the 'XXModule'\build\intermediates\classes\debug\UML
+
 ![avatar](https://github.com/tianxunaicaoke/UML--Creater/blob/master/UMLExample.png)
+
+
 >The parameter of IncludeClass annotation has default value
 ~~~
  /**

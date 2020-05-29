@@ -9,5 +9,5 @@ import javax.lang.model.element.Element;
 
 public interface UMLStrategy {
     void createUML(List<Element> elements) throws Exception;
-    void generateToFile(Filer filer);
+    void generateFileAndPNG(Filer filer);
 }
