@@ -7,13 +7,16 @@ import com.example.classdiagramlib.bean.UMLNote;
 import com.example.classdiagramlib.bean.UMLPackage;
 import com.example.classdiagramlib.classLoader.DynamicClassPathLoader;
 
+import net.sourceforge.plantuml.ErrorStatus;
+import net.sourceforge.plantuml.Option;
 import net.sourceforge.plantuml.Run;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.net.MalformedURLException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,8 +71,20 @@ public class TxtFileGenerator implements UMLFileGenerator {
         classPathLoader.loadClass();
         try {
             String[] args = {plantUMLURI.toURL().toString().substring(6)};
-            Run.main(args);
+            Option option = new Option(args);
+            ErrorStatus error = ErrorStatus.init();
+            Method method = Run.class.getDeclaredMethod("manageAllFiles", Option.class, ErrorStatus.class);
+            method.setAccessible(true);
+            method.invoke(Run.class.newInstance(), option, error);
         } catch (IOException e) {
+            e.printStackTrace();
+        }  catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();

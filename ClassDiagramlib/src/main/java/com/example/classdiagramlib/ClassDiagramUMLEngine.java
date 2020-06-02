@@ -36,6 +36,9 @@ public class ClassDiagramUMLEngine extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
+        if(roundEnvironment.processingOver()){
+            return true;
+        }
         List<Element> list = new ArrayList<>(roundEnvironment.getElementsAnnotatedWith(IncludeClass.class));
         UMLStrategy UMLStrategy = new ClassUMLStrategy();
         try {
