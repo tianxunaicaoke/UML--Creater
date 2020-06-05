@@ -14,14 +14,19 @@ public class Template {
     public static final String INTERFACE = "interface ";
     public static final String EXTENDS = " extends ";
     public static final String NODE = "node ";
-    public static final String NOTE = "note top of ";
+    public static final String NOTE_TOP = "note top of ";
+    public static final String NOTE_OVER = "note over ";
     public static final String PACKAGE = "package ";
     public static final String IMPLEMENT = " implements ";
-    public static final String COMMA =" , ";
-    public static final String COLON =" : ";
-    public static final String SPACE =" ";
-    public static final String Composition = " *-- ";
-
+    public static final String COMMA = " , ";
+    public static final String COLON = " : ";
+    public static final String SPACE = " ";
+    public static final String COMPOSITION = " *-- ";
+    public static final String INVOKE = " --> ";
+    public static final String DIVIDER = "==";
+    public static final String ACTIVATE = "activate ";
+    public static final String DEACTIVATE = "deactivate ";
+    public static final String RETURNED = " returned";
 
     public static String classSuperTemplate(String target, String superClass, List<String> superInterface) {
         StringBuilder stringBuffer = new StringBuilder(CLASS + target);
@@ -75,7 +80,7 @@ public class Template {
         return stringBuffer.toString();
     }
 
-    public static String noteTemplate(String mClass, String note) {
+    public static String noteTemplate(String mClass, String note, String notePosition) {
         String[] chars = note.split(" ");
         int size = 4;
         while (size < chars.length - 1) {
@@ -88,7 +93,7 @@ public class Template {
                 chars) {
             out.append(string).append(" ");
         }
-        return NOTE + mClass + COLON + out;
+        return notePosition + mClass + COLON + out;
     }
 
     public static String nodeTemplate(String nodeName) {

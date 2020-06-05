@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ClassUMLByClassLoaderProcessor extends ClassUMLProcessor {
     @Override
-    public void buildGraph(List<UMLNode> nodes) {
+    public void buildUMLGraph(List<UMLNode> nodes) {
         String[] classPath = {"F:\\MAnnotation-master\\UMLCreate\\app\\temmp\\"};
         DynamicClassPathLoader classPathLoader = new DynamicClassPathLoader(classPath);
         classPathLoader.loadClass();

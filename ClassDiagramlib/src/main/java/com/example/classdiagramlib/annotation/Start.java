@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.CLASS)
-public @interface IncludeMethod {
-    String step() default "";
+public @interface Start {
+    String value();
 }
