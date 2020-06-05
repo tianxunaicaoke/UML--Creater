@@ -21,7 +21,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 
 
-public class ClassUMLProcessor implements UMLProcessor {
+public class ClassUMLProcessor implements UMLProcessor<UMLNode> {
     HashMap<String, UMLClass> exitClass = new HashMap<>();
     private static final String OBJECT = "java.lang.Object";
 
@@ -44,7 +44,7 @@ public class ClassUMLProcessor implements UMLProcessor {
     }
 
     @Override
-    public void buildGraph(List<UMLNode> nodes) {
+    public void buildUMLGraph(List<UMLNode> umlNodes) {
         if (exitClass != null && !exitClass.entrySet().isEmpty()) {
             for (UMLClass umlClass : exitClass.values()) {
                 TypeElement typeElement = ((TypeElement) umlClass.getElement());

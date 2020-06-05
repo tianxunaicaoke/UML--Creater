@@ -1,10 +1,10 @@
 package com.example.classdiagramlib.bean;
 
-import static com.example.classdiagramlib.fileCreater.Template.Composition;
+import static com.example.classdiagramlib.fileCreater.Template.COMPOSITION;
 
 public class UMLAggregation extends UMLLink {
     @Override
     public String toUMLString() {
-        return origin + Composition + target;
+        return origin + COMPOSITION + target;
     }
 }
