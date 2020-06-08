@@ -1,9 +1,10 @@
 package com.example.classdiagramlib.processer;
 
 import com.example.classdiagramlib.annotation.Step;
+import com.example.classdiagramlib.annotation.Steps;
 import com.example.classdiagramlib.bean.UMLInvoke;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.lang.model.element.Element;
@@ -11,64 +12,123 @@ import javax.lang.model.element.ExecutableElement;
 
 
 import static com.example.classdiagramlib.fileCreater.Template.ACTIVATE;
-import static com.example.classdiagramlib.fileCreater.Template.DEACTIVATE;
-import static com.example.classdiagramlib.fileCreater.Template.RETURNED;
 import static com.example.classdiagramlib.strategy.ProcessChecker.checkAnnotationIfOnMethod;
 
 public class SequenceUMLProcessor implements UMLProcessor<UMLInvoke> {
-    private HashMap<Integer, UMLInvoke> invokes = new HashMap<>();
-
+    private List<UMLInvoke> invokes = new ArrayList<>();
+    private UMLInvoke root;
     @Override
     public void configUMLElement(List<Element> elements, List<UMLInvoke> nodes) throws Exception {
         for (Element item : elements) {
             checkAnnotationIfOnMethod(item);
             UMLInvoke invoke = convert(item);
-            invokes.put(item.getAnnotation(Step.class).value(), invoke);
+            invokes.add(invoke);
         }
     }
 
     private UMLInvoke convert(Element element) {
         ExecutableElement elementType = (ExecutableElement) element;
-        Step step = element.getAnnotation(Step.class);
-        UMLInvoke umlInvoke = new UMLInvoke();
-        umlInvoke.setCurrentMethod(elementType.getSimpleName().toString());
-        umlInvoke.setClassName(elementType.getEnclosingElement().getSimpleName().toString());
-        umlInvoke.setHasReturnType(!elementType.getReturnType().toString().equals("void"));
-        if (!step.note().equals("")) {
-            umlInvoke.setNote(step.note());
+        String preMethod = elementType.getSimpleName().toString();
+        String preClassName = elementType.getEnclosingElement().getSimpleName().toString();
+        UMLInvoke out = new UMLInvoke();
+        out.setPreClassName(preClassName);
+        out.setPreMethod(preMethod);
+        out.setHasReturnType(!elementType.getReturnType().toString().equals("void"));
+        if (element.getAnnotation(Steps.class) != null) {
+            Step[] steps = element.getAnnotation(Steps.class).value();
+            for (Step step : steps) {
+                String[] strings = step.value().split(":");
+                UMLInvoke umlInvoke = new UMLInvoke();
+                umlInvoke.setCurrentMethod(strings[1]);
+                umlInvoke.setClassName(strings[0]);
+                umlInvoke.setPreMethod(preMethod);
+                umlInvoke.setPreClassName(preClassName);
+                if (!step.note().equals("")) {
+                    umlInvoke.setNote(step.note());
+                }
+                if (!step.divider().equals("")) {
+                    umlInvoke.setDivider(step.divider());
+                }
+                if (!step.group().equals("")) {
+                    umlInvoke.setGroup(step.group());
+                }
+                out.addInvoke(umlInvoke);
+            }
+        } else if (element.getAnnotation(Step.class) != null) {
+            Step step = element.getAnnotation(Step.class);
+            String[] strings = step.value().split(":");
+            UMLInvoke umlInvoke = new UMLInvoke();
+            umlInvoke.setCurrentMethod(strings[1]);
+            umlInvoke.setClassName(strings[0]);
+            umlInvoke.setPreMethod(preMethod);
+            umlInvoke.setPreClassName(preClassName);
+            umlInvoke.setHasReturnType(!elementType.getReturnType().toString().equals("void"));
+            if (!step.note().equals("")) {
+                umlInvoke.setNote(step.note());
+            }
+            if (!step.divider().equals("")) {
+                umlInvoke.setDivider(step.divider());
+            }
+            if (!step.group().equals("")) {
+                umlInvoke.setGroup(step.group());
+            }
+            out.addInvoke(umlInvoke);
         }
-        if (!step.divider().equals("")) {
-            umlInvoke.setDivider(step.divider());
-        }
-        return umlInvoke;
+        return out;
     }
 
     @Override
     public void buildUMLGraph(List<UMLInvoke> umlInvokes) {
-        sortInvokeList(invokes);
-        umlInvokes.add(invokes.get(1));
+        buildInvokeTree();
+        UpdateReturnInvok(root);
+        umlInvokes.add(root);
     }
 
-    private void sortInvokeList(HashMap<Integer, UMLInvoke> invokes) {
-        for (int i = 1; i < invokes.size(); i++) {
-            invokes.get(i).setNext(invokes.get(i + 1));
-            invokes.get(i + 1).setPreClassName(invokes.get(i).getClassName());
-            invokes.get(i + 1).setNeedToDrawReturn(!invokes.get(i).getClassName().equals(invokes.get(i + 1).getClassName()));
-
-        }
-
-        UMLInvoke end = invokes.get(invokes.size());
-        for (int i = invokes.size(); i > 0; i--) {
-            if (invokes.get(i).isNeedToDrawReturn() && invokes.get(i).isHasReturnType()) {
-                invokes.get(i).setActivate(ACTIVATE + invokes.get(i).getClassName());
-                UMLInvoke invoke = new UMLInvoke();
-                invoke.setPreClassName(invokes.get(i).getClassName());
-                invoke.setClassName(invokes.get(i).getPreClassName());
-                invoke.setCurrentMethod(invokes.get(i).getCurrentMethod()+RETURNED);
-                invoke.setActivate(DEACTIVATE + invokes.get(i).getClassName());
-                end.setNext(invoke);
-                end = end.getNext();
+    private void buildInvokeTree() {
+        int count = invokes.size();
+        for(int index=0;index<count;index++){
+            UMLInvoke invoke = invokes.get(index);
+            boolean isRoot = true;
+            for (int i = 0; i < invokes.size(); i++) {
+                List<UMLInvoke> leafs = getInvokeLeaf(invokes.get(i));
+                for (int j = 0; j < leafs.size(); j++) {
+                    if(UMLEquals(invoke,leafs.get(j))){
+                        leafs.get(j).setInvokes(invoke.getInvokes());
+                        isRoot = false;
+                    }
+                }
+            }
+            if(isRoot){
+               root = invoke;
             }
         }
+    }
+
+    private void UpdateReturnInvok(UMLInvoke invoke) {
+        if(invoke.isHasReturnType()){
+            invoke.setActivate(ACTIVATE + invoke.getClassName());
+        }
+        if (invoke.getInvokes().isEmpty()) {
+            return ;
+        }
+        for (UMLInvoke invoke1 : invoke.getInvokes()) {
+             UpdateReturnInvok(invoke1);
+        }
+    }
+
+    private List<UMLInvoke> getInvokeLeaf(UMLInvoke invoke){
+        List<UMLInvoke> invokes = new ArrayList<>();
+        if(invoke.getInvokes().isEmpty()){
+            invokes.add(invoke);
+           return invokes;
+        }
+        for(UMLInvoke umlInvoke:invoke.getInvokes()){
+            invokes.addAll(getInvokeLeaf(umlInvoke));
+        }
+        return invokes;
+    }
+
+    private boolean UMLEquals(UMLInvoke a, UMLInvoke b) {
+        return a.getPreClassName().equals(b.getClassName()) && a.getPreMethod().equals(b.getCurrentMethod());
     }
 }

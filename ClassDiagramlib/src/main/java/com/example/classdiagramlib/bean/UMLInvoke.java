@@ -1,23 +1,41 @@
 package com.example.classdiagramlib.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.example.classdiagramlib.fileCreater.Template.COLON;
+import static com.example.classdiagramlib.fileCreater.Template.DEACTIVATE;
 import static com.example.classdiagramlib.fileCreater.Template.DIVIDER;
+import static com.example.classdiagramlib.fileCreater.Template.GROUP;
 import static com.example.classdiagramlib.fileCreater.Template.INVOKE;
 import static com.example.classdiagramlib.fileCreater.Template.LINE_FEED;
 import static com.example.classdiagramlib.fileCreater.Template.NOTE_OVER;
-import static com.example.classdiagramlib.fileCreater.Template.NOTE_TOP;
+import static com.example.classdiagramlib.fileCreater.Template.RETURNED;
 import static com.example.classdiagramlib.fileCreater.Template.noteTemplate;
 
 public class UMLInvoke {
     String currentMethod;
     String preClassName;
+    String preMethod;
     String className;
     String divider;
     String activate;
     String note;
+    String group;
     boolean hasReturnType;
-    boolean needToDrawReturn;
-    UMLInvoke next;
+    List<UMLInvoke> invokes = new ArrayList<>();
+
+    public void setInvokes(List<UMLInvoke> invokes){
+        this.invokes = invokes;
+    }
+
+    public void addInvoke(UMLInvoke umlInvoke){
+        invokes.add(umlInvoke);
+    }
+
+    public List<UMLInvoke> getInvokes(){
+        return invokes;
+    }
 
     public String getNote() {
         return note;
@@ -43,12 +61,12 @@ public class UMLInvoke {
         this.hasReturnType = hasReturnType;
     }
 
-    public boolean isNeedToDrawReturn() {
-        return needToDrawReturn;
+    public String getPreMethod() {
+        return preMethod;
     }
 
-    public void setNeedToDrawReturn(boolean needToDrawReturn) {
-        this.needToDrawReturn = needToDrawReturn;
+    public void setPreMethod(String preMethod) {
+        this.preMethod = preMethod;
     }
 
     public String getCurrentMethod() {
@@ -83,12 +101,12 @@ public class UMLInvoke {
         this.className = className;
     }
 
-    public UMLInvoke getNext() {
-        return next;
+    public String getGroup() {
+        return group;
     }
 
-    public void setNext(UMLInvoke next) {
-        this.next = next;
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     public String toUMLString() {
@@ -99,19 +117,45 @@ public class UMLInvoke {
                     .append(DIVIDER)
                     .append(LINE_FEED);
         }
+        if(getGroup()!=null){
+            stringBuilder.append(GROUP)
+                    .append(getGroup())
+                    .append(LINE_FEED);
+        }
         if (getNote() != null) {
             stringBuilder.append(noteTemplate(getClassName(), getNote(), NOTE_OVER))
                     .append(LINE_FEED);
         }
-         stringBuilder.append(getPreClassName() == null ? "" : getPreClassName())
-                .append(INVOKE)
-                .append(getClassName())
-                .append(COLON)
-                .append(getCurrentMethod());
+        //TODO will fix it later
+        if(getClassName() == null){
+            stringBuilder.append(" ")
+                    .append(INVOKE)
+                    .append(getPreClassName())
+                    .append(COLON)
+                    .append(getPreMethod());
+        }else{
+            stringBuilder.append(getPreClassName() == null ? "" : getPreClassName())
+                    .append(INVOKE)
+                    .append(getClassName())
+                    .append(COLON)
+                    .append(getCurrentMethod());
+        }
         if (getActivate() != null) {
             stringBuilder.append(LINE_FEED)
                     .append(getActivate());
         }
+        return stringBuilder.toString();
+    }
+
+    public String toReturnString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(getClassName())
+                .append(INVOKE)
+                .append(getPreClassName())
+                .append(COLON)
+                .append(getCurrentMethod() + RETURNED)
+                .append(LINE_FEED)
+                .append(DEACTIVATE + getClassName());
         return stringBuilder.toString();
     }
 }

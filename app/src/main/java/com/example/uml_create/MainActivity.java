@@ -3,7 +3,7 @@ package com.example.uml_create;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.classdiagramlib.annotation.IncludeClass;
+//import com.example.classdiagramlib.annotation.IncludeClass;
 
 
 public class MainActivity extends AppCompatActivity {

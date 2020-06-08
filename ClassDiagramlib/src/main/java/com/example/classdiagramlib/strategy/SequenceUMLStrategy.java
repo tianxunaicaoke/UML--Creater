@@ -1,8 +1,6 @@
 package com.example.classdiagramlib.strategy;
 
 import com.example.classdiagramlib.bean.UMLInvoke;
-import com.example.classdiagramlib.bean.UMLNode;
-import com.example.classdiagramlib.fileCreater.ClassFileGenerator;
 import com.example.classdiagramlib.fileCreater.SequenceFileGenerator;
 import com.example.classdiagramlib.fileCreater.UMLFileGenerator;
 import com.example.classdiagramlib.processer.SequenceUMLProcessor;

@@ -5,6 +5,7 @@ import java.util.List;
 public class Template {
     public static final String START = "@startuml";
     public static final String END = "@enduml";
+    public static final String END_1 = "end";
     public static final String LINE_FEED = "\n";
     public static final String LINE_FEED_1 = "\\n";
     public static final String END_PRACKET = "}";
@@ -27,6 +28,8 @@ public class Template {
     public static final String ACTIVATE = "activate ";
     public static final String DEACTIVATE = "deactivate ";
     public static final String RETURNED = " returned";
+    public static final String GROUP = "group ";
+
 
     public static String classSuperTemplate(String target, String superClass, List<String> superInterface) {
         StringBuilder stringBuffer = new StringBuilder(CLASS + target);
