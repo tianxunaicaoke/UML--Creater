@@ -127,4 +127,5 @@ end
 @enduml
 ~~~
 >And the png will also created under the 'XXModule'\build\intermediates\classes\debug\UML
+
 ![avatar](https://github.com/tianxunaicaoke/UML--Creater/blob/master/UMLSequenceExample.png)
