@@ -4,7 +4,7 @@ This tool will help developer to create PlantUML automatic by add annotations to
 >Add the dependence to the module which you want to create PlantUML
 ~~~~
 dependencies {
-    implementation 'com.example.xtian:QuickUML:v1.0.0'
+    implementation 'com.example.xtian:QuickUML:v1.0.1'
 }
 ~~~~
 #### How to use annotation create ClassUML 
