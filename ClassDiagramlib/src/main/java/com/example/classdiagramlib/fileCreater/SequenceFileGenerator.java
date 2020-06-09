@@ -1,7 +1,6 @@
 package com.example.classdiagramlib.fileCreater;
 
 import com.example.classdiagramlib.bean.UMLInvoke;
-import com.example.classdiagramlib.bean.UMLLink;
 import com.example.classdiagramlib.util.PlantUtil;
 
 import java.io.IOException;
@@ -15,6 +14,7 @@ import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 
 import static com.example.classdiagramlib.fileCreater.Template.END;
+import static com.example.classdiagramlib.fileCreater.Template.END_1;
 import static com.example.classdiagramlib.fileCreater.Template.LINE_FEED;
 import static com.example.classdiagramlib.fileCreater.Template.START;
 
@@ -31,7 +31,7 @@ public class SequenceFileGenerator implements UMLFileGenerator<UMLInvoke> {
     public void writeFile(Filer filer) {
         Writer writer = null;
         try {
-            FileObject filerSourceFile = filer.createResource(StandardLocation.CLASS_OUTPUT, "UML", "uml2.puml");
+            FileObject filerSourceFile = filer.createResource(StandardLocation.CLASS_OUTPUT, "UML", "umlsequence.puml");
             plantUMLURI = filerSourceFile.toUri();
             writer = filerSourceFile.openWriter();
             writer.write(convert());
@@ -53,13 +53,39 @@ public class SequenceFileGenerator implements UMLFileGenerator<UMLInvoke> {
         StringBuilder stringBuilder = new StringBuilder();
         UMLInvoke start = invokes.get(0);
         stringBuilder.append(START)
-                .append(LINE_FEED);
-        while (start != null) {
-            stringBuilder.append(start.toUMLString())
-                    .append(LINE_FEED);
-            start = start.getNext();
-        }
+                .append(LINE_FEED)
+                .append(printTree(start));
         stringBuilder.append(END);
+        return stringBuilder.toString();
+    }
+
+    private String printTree(UMLInvoke invoke) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(invoke.toUMLString())
+                .append(LINE_FEED);
+        if (invoke.getInvokes().isEmpty()) {
+            if(invoke.isHasReturnType()){
+                stringBuilder.append(invoke.toReturnString())
+                        .append(LINE_FEED);
+            }
+            if(invoke.getGroup()!=null){
+                stringBuilder.append(END_1)
+                        .append(LINE_FEED);
+            }
+            return stringBuilder.toString();
+        }
+
+        if(invoke.isHasReturnType()){
+            stringBuilder.append(invoke.toReturnString())
+                    .append(LINE_FEED);
+        }
+        for (UMLInvoke invoke1 : invoke.getInvokes()) {
+            stringBuilder.append(printTree(invoke1));
+        }
+        if(invoke.getGroup()!=null){
+            stringBuilder.append(END_1)
+                    .append(LINE_FEED);
+        }
         return stringBuilder.toString();
     }
 

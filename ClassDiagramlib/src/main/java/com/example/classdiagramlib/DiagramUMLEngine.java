@@ -1,6 +1,7 @@
 package com.example.classdiagramlib;
 
 import com.example.classdiagramlib.annotation.Condition.*;
+import com.example.classdiagramlib.annotation.Steps;
 import com.example.classdiagramlib.annotation.Step;
 import com.example.classdiagramlib.exception.UMLAnnotationNotOnRightPlaceException;
 import com.example.classdiagramlib.strategy.SequenceUMLStrategy;
@@ -42,11 +43,10 @@ public class DiagramUMLEngine extends AbstractProcessor {
         if(roundEnvironment.processingOver()){
             return true;
         }
+
         List<Element> classList = new ArrayList<>(roundEnvironment.getElementsAnnotatedWith(IncludeClass.class));
-        List<Element> sequenceList = new ArrayList<>(roundEnvironment.getElementsAnnotatedWith(Step.class));
-        sequenceList.addAll(roundEnvironment.getElementsAnnotatedWith(If.class));
-        sequenceList.addAll(roundEnvironment.getElementsAnnotatedWith(Then.class));
-        sequenceList.addAll(roundEnvironment.getElementsAnnotatedWith(Else.class));
+        List<Element> sequenceList = new ArrayList<>(roundEnvironment.getElementsAnnotatedWith(Steps.class));
+        sequenceList.addAll(roundEnvironment.getElementsAnnotatedWith(Step.class));
         if(!classList.isEmpty()){
             processDiagram(classList,new ClassUMLStrategy());
         }
