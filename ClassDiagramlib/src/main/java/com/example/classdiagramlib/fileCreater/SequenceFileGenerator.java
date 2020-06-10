@@ -13,6 +13,8 @@ import javax.annotation.processing.Filer;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 
+import static com.example.classdiagramlib.fileCreater.Template.ACTIVATE;
+import static com.example.classdiagramlib.fileCreater.Template.DEACTIVATE;
 import static com.example.classdiagramlib.fileCreater.Template.END;
 import static com.example.classdiagramlib.fileCreater.Template.END_1;
 import static com.example.classdiagramlib.fileCreater.Template.LINE_FEED;
@@ -64,25 +66,35 @@ public class SequenceFileGenerator implements UMLFileGenerator<UMLInvoke> {
         stringBuilder.append(invoke.toUMLString())
                 .append(LINE_FEED);
         if (invoke.getInvokes().isEmpty()) {
-            if(invoke.isHasReturnType()){
+            if (invoke.isHasReturnType()) {
                 stringBuilder.append(invoke.toReturnString())
                         .append(LINE_FEED);
             }
-            if(invoke.getGroup()!=null){
+            if (invoke.getGroup() != null) {
                 stringBuilder.append(END_1)
                         .append(LINE_FEED);
             }
             return stringBuilder.toString();
         }
-
-        if(invoke.isHasReturnType()){
-            stringBuilder.append(invoke.toReturnString())
+        if (invoke.getClassName() != null && invoke.getClassName().equals(invoke.getPreClassName())) {
+            stringBuilder.append(ACTIVATE)
+                    .append(invoke.getPreClassName())
                     .append(LINE_FEED);
         }
         for (UMLInvoke invoke1 : invoke.getInvokes()) {
             stringBuilder.append(printTree(invoke1));
         }
-        if(invoke.getGroup()!=null){
+        if(invoke.getClassName() != null && invoke.getClassName().equals(invoke.getPreClassName())){
+            stringBuilder.append(DEACTIVATE)
+                    .append(invoke.getPreClassName())
+                    .append(LINE_FEED);
+        }
+
+        if (invoke.isHasReturnType() && !invoke.getClassName().equals(invoke.getPreClassName())) {
+            stringBuilder.append(invoke.toReturnString())
+                    .append(LINE_FEED);
+        }
+        if (invoke.getGroup() != null) {
             stringBuilder.append(END_1)
                     .append(LINE_FEED);
         }

@@ -94,6 +94,9 @@ public class SequenceUMLProcessor implements UMLProcessor<UMLInvoke> {
                 for (int j = 0; j < leafs.size(); j++) {
                     if(UMLEquals(invoke,leafs.get(j))){
                         leafs.get(j).setInvokes(invoke.getInvokes());
+                        if(invoke.isHasReturnType()){
+                            leafs.get(j).setHasReturnType(true);
+                        }
                         isRoot = false;
                     }
                 }
@@ -105,14 +108,14 @@ public class SequenceUMLProcessor implements UMLProcessor<UMLInvoke> {
     }
 
     private void UpdateReturnInvok(UMLInvoke invoke) {
-        if(invoke.isHasReturnType()){
+        if (invoke.isHasReturnType() && !invoke.getClassName().equals(invoke.getPreClassName())) {
             invoke.setActivate(ACTIVATE + invoke.getClassName());
         }
         if (invoke.getInvokes().isEmpty()) {
-            return ;
+            return;
         }
         for (UMLInvoke invoke1 : invoke.getInvokes()) {
-             UpdateReturnInvok(invoke1);
+            UpdateReturnInvok(invoke1);
         }
     }
 
