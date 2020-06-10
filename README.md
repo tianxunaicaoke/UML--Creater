@@ -15,21 +15,41 @@ dependencies {
 >You can add the note for this class by fill the attribute 'umlNote'.
 >The QuickUML will automatic include super class/interface of the annotated class.
 ~~~
-@IncludeClass(umlNode = "Hello",umlPackage = "world",umlNote = "this is note of this class")
-class example{
-   ...
-   ...
+-------------------------
+---- Example.java -----
+@IncludeClass(umlNode = "example",umlPackage = "examplepackage",umlNote = "this is note of this class")
+public class Example implements EInterface{
+    ExampleA A;
+    ...
+}
+-------------------------
+---- EInterface.java -----
+@IncludeClass(umlNode = "example",umlPackage = "interface")
+public interface EInterface {
+}
+-------------------------
+---- ExampleA.java -----
+@IncludeClass(umlNode = "example", umlPackage = "examplepackage")
+public class ExampleA {
+    ...
 }
 ~~~
 >Then run compileDebugJavaWithJavac, the Plant UML file will be created under 'XXModule'\build\intermediates\classes\debug\UML
 ~~~
 @startuml
-node "Hello"{
- package "world"{
-  class example
-  note top of example : this is note of this\n class 
- }
+node "example"{
+ package "interface"{
+  interface EInterface
+
 }
+ package "examplepackage"{
+  class Example
+  note top of Example : this is note of this\n class
+  class ExampleA
+}
+}
+class Example implements EInterface
+Example *-- ExampleA
 @enduml
 ~~~
 >And the png will also created under the 'XXModule'\build\intermediates\classes\debug\UML
@@ -58,7 +78,7 @@ class example{
 >You can define the group by fill the attribute 'group'. 
 ~~~
 -------------------------
----- ExampleA.class -----
+---- ExampleA.java -----
 public class ExampleA {
     ...
 
@@ -82,7 +102,7 @@ public class ExampleA {
     }
 }
 -------------------------
----- ExampleB.class -----
+---- ExampleB.java -----
 public class ExampleB {
     ...
     @Step("ExampleH:initEngine")
@@ -92,7 +112,7 @@ public class ExampleB {
     }
 }
 -------------------------
----- ExampleD.class -----
+---- ExampleD.java -----
 public class ExampleD {
     ... 
     @Step(value = "ExampleF:doOnce",note = "this action is in another thread")
