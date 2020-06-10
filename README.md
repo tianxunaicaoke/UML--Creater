@@ -1,18 +1,21 @@
 # Quick - UML
 ### Getting Start
-This tool will help developer to create PlantUML automatic by add annotations to source code. This tool is working for java project.
->Add the dependence to the module which you want to create PlantUML
+In some case we need to generate UML diagram for exist code for some reason 
+like warm up with some new project,or learn some new technical framework...
+This tool will help developer to create PlantUML automatic by add annotations to source code. 
+And this tool is only working for java based project now.
+>Add the dependence to the module which need to generate uml by this tool
 ~~~~
 dependencies {
     implementation 'com.example.xtian:QuickUML:v1.0.1'
 }
 ~~~~
-#### How to use annotation create ClassUML 
+#### How to use annotation to create ClassUML 
 >The annotation for ClassUML named @IncludeClass.
->Add the annotation above the class which you want to include in created UML.
->And this annotation only can be marked on class, if not will get the UMLAnnotationNotOnRightPlaceException.
->You can define the class belong to which node and which package by fill the attribute 'umlNode' and 'umlPackage'.
->You can add the note for this class by fill the attribute 'umlNote'.
+>Add the annotation above the class which include in generated UML.
+>And this annotation only can be marked on class, if not process will throw the UMLAnnotationNotOnRightPlaceException.
+>You can define the class node and package by fill the attribute 'umlNode' and 'umlPackage'.
+>And add the note for this class by fill the attribute 'umlNote'.
 >The QuickUML will automatic include super class/interface of the annotated class.
 ~~~
 -------------------------
@@ -34,7 +37,7 @@ public class ExampleA {
     ...
 }
 ~~~
->Then run compileDebugJavaWithJavac, the Plant UML file will be created under 'XXModule'\build\intermediates\classes\debug\UML
+>Then run compileDebugJavaWithJavac for target module, the Plant UML file will be generated under 'XXModule'\build\intermediates\classes\debug\UML
 ~~~
 @startuml
 node "example"{
@@ -52,12 +55,12 @@ class Example implements EInterface
 Example *-- ExampleA
 @enduml
 ~~~
->And the png will also created under the 'XXModule'\build\intermediates\classes\debug\UML
+>And the png will also generated under the 'XXModule'\build\intermediates\classes\debug\UML
 
 ![avatar](https://github.com/tianxunaicaoke/UML--Creater/blob/master/UMLExample.png)
 
 
->The parameter of IncludeClass annotation has default value
+>The parameter of IncludeClass annotation has default values
 ~~~
  /**
  *umlNode default "Hello"
@@ -69,13 +72,13 @@ class example{
 
 }
 ~~~
-#### How to use annotation create Sequence UML
+#### How to use annotation to create Sequence UML
 >The annotation for SequenceUML named @Step. 
->And this annotation only can be marked on Method, if not will get the UMLAnnotationNotOnRightPlaceException.
+>And this annotation only can be marked on Method, if not process will throw the UMLAnnotationNotOnRightPlaceException.
 >And the @Step annotation is repeatable.
 >The value of @Step("ClassName:MethodName") refer the invoke method.
 >You can define the divider by fill the attribute 'divider'.
->You can define the group by fill the attribute 'group'. 
+>And define the group by fill the attribute 'group'. 
 ~~~
 -------------------------
 ---- ExampleA.java -----
@@ -122,7 +125,7 @@ public class ExampleD {
     }
 }
 ~~~
->Then run compileDebugJavaWithJavac, the Plant UML file will be created under 'XXModule'\build\intermediates\classes\debug\UML
+>Then run compileDebugJavaWithJavac, the Plant UML file will be generated under 'XXModule'\build\intermediates\classes\debug\UML
 ~~~
 @startuml
   --> ExampleA : init
@@ -146,6 +149,12 @@ ExampleA --> ExampleE : doFinish
 end
 @enduml
 ~~~
->And the png will also created under the 'XXModule'\build\intermediates\classes\debug\UML
+>And the png will also generated under the 'XXModule'\build\intermediates\classes\debug\UML
 
 ![avatar](https://github.com/tianxunaicaoke/UML--Creater/blob/master/UMLSequenceExample.png)
+
+### Know Issue:
+    1. For class UML, the inner class not support very fine, will update in V1.0.2 version.
+    2. For sequence UML, the if and repeat step will support in V1.0.3 version.
+### Contribute:
+Anyone can rise the issue in https://github.com/tianxunaicaoke/UML--Creater/issues, and anyone can contribute code by pull Request.Thanks for reading.    
