@@ -1,6 +1,5 @@
 package com.example.classdiagramlib;
 
-import com.example.classdiagramlib.annotation.Condition.*;
 import com.example.classdiagramlib.annotation.Steps;
 import com.example.classdiagramlib.annotation.Step;
 import com.example.classdiagramlib.exception.UMLAnnotationNotOnRightPlaceException;
@@ -8,7 +7,6 @@ import com.example.classdiagramlib.strategy.SequenceUMLStrategy;
 import com.example.classdiagramlib.strategy.ClassUMLStrategy;
 import com.example.classdiagramlib.strategy.UMLStrategy;
 import com.example.classdiagramlib.annotation.IncludeClass;
-import com.google.auto.service.AutoService;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -19,14 +17,13 @@ import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 
-@AutoService(Processor.class)
+
 public class DiagramUMLEngine extends AbstractProcessor {
     private Filer filer;
     private Messager messager;

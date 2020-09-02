@@ -1,5 +1,7 @@
 package com.example.classdiagramlib.fileCreater;
 
+import android.support.annotation.NonNull;
+
 import com.example.classdiagramlib.bean.UMLClass;
 import com.example.classdiagramlib.bean.UMLLink;
 import com.example.classdiagramlib.bean.UMLNode;
@@ -8,7 +10,7 @@ import com.example.classdiagramlib.bean.UMLPackage;
 import com.example.classdiagramlib.util.PlantUtil;
 
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+//import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.io.IOException;
 import java.io.Writer;
