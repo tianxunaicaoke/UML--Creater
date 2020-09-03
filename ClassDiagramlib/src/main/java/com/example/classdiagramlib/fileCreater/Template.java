@@ -49,6 +49,7 @@ public class Template {
         return stringBuffer.toString();
     }
 
+    @SuppressWarnings("unused")
     public static String classHoldTemplate(String target, String[] hold) {
         StringBuilder stringBuffer = new StringBuilder("");
         if (hold != null) {

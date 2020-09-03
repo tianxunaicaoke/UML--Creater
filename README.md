@@ -7,8 +7,9 @@ And this tool is only working for java based project now.
 >Add the dependence to the module which need to generate uml by this tool
 ~~~~
 dependencies {
-    implementation 'com.example.xtian:QuickUML:v1.0.2'
-    annotationProcessor 'com.example.xtian:QuickUML:v1.0.2'
+    compileOnly 'net.sourceforge.plantuml:plantuml:1.2020.16'
+    implementation 'com.example.xtian:QuickUML:v1.0.3'
+    annotationProcessor 'com.example.xtian:QuickUML:v1.0.3'
 }
 ~~~~
 
@@ -18,8 +19,9 @@ apply plugin: 'kotlin-kapt'
 ...
 
 dependencies {
-    implementation 'com.example.xtian:QuickUML:v1.0.2'
-    kapt 'com.example.xtian:QuickUML:v1.0.2'
+    compileOnly 'net.sourceforge.plantuml:plantuml:1.2020.16'
+    implementation 'com.example.xtian:QuickUML:v1.0.3'
+    kapt 'com.example.xtian:QuickUML:v1.0.3'
 }
 ~~~~
 #### How to use annotation to create ClassUML 

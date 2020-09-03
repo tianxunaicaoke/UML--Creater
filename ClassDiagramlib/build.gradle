@@ -1,18 +1,27 @@
 apply plugin: 'java-library'
 apply plugin: 'com.novoda.bintray-release'
 
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'net.sourceforge.plantuml:plantuml:1.2020.16'
+    }
+}
 
 dependencies {
-    compileOnly fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.squareup:javapoet:1.11.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:support-annotations:28.0.0'
+    compileOnly 'net.sourceforge.plantuml:plantuml:1.2020.16'
 }
 
 publish {
     userOrg = 'xtian'
     groupId = 'com.example.xtian'
     artifactId = 'QuickUML'
-    publishVersion = 'v1.0.2'
+    publishVersion = 'v1.0.3'
 }
 
 sourceCompatibility = "8"

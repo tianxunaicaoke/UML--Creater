@@ -9,7 +9,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+        javaCompileOptions {
+            annotationProcessorOptions.includeCompileClasspath = true
+        }
     }
     buildTypes {
         release {
@@ -23,11 +25,6 @@ android {
     }
 }
 
-task copyTask(type: Copy) {
-    from 'F:\\MAnnotation-master\\UMLCreate\\app\\build\\intermediates\\classes\\debug\\com\\example\\uml_create'
-    into 'F:\\MAnnotation-master\\UMLCreate\\app\\temmp\\com\\example\\uml_create\\'
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.0.0'
@@ -35,6 +32,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    compile project(path: ':ClassDiagramlib')
-
+    compileOnly 'net.sourceforge.plantuml:plantuml:1.2020.16'
+    implementation project(path: ':ClassDiagramlib')
 }

@@ -9,9 +9,6 @@ import com.example.classdiagramlib.bean.UMLNote;
 import com.example.classdiagramlib.bean.UMLPackage;
 import com.example.classdiagramlib.util.PlantUtil;
 
-
-//import org.checkerframework.checker.nullness.qual.NonNull;
-
 import java.io.IOException;
 import java.io.Writer;
 import java.net.MalformedURLException;

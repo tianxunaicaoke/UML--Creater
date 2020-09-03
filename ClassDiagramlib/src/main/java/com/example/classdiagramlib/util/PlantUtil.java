@@ -1,6 +1,5 @@
 package com.example.classdiagramlib.util;
 
-import com.example.classdiagramlib.classLoader.DynamicClassPathLoader;
 
 import net.sourceforge.plantuml.ErrorStatus;
 import net.sourceforge.plantuml.Option;
@@ -12,9 +11,6 @@ import java.lang.reflect.Method;
 
 public class PlantUtil {
     public static void createPng(String path){
-        String[] classPath = {"F:\\Create-UML\\UML--Creater\\ClassDiagramlib\\libs\\plantuml.jar"};
-        DynamicClassPathLoader classPathLoader = new DynamicClassPathLoader(classPath);
-        classPathLoader.loadClass();
         try {
             String[] args = {path};
             Option option = new Option(args);
