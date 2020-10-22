@@ -71,7 +71,7 @@ Example *-- ExampleA
 ~~~
 >And the png will also generated under the 'XXModule'\build\intermediates\classes\debug\UML
 
-![UMLSequenceExample.png](https://i.loli.net/2020/10/22/8QujP6W9BiglYFw.png)
+![UMLExample.png](https://i.loli.net/2020/10/22/awvcYxNhGXKr76J.png)
 
 
 >The parameter of IncludeClass annotation has default values
@@ -165,7 +165,7 @@ end
 ~~~
 >And the png will also generated under the 'XXModule'\build\intermediates\classes\debug\UML
 
-![avatar](https://github.com/tianxunaicaoke/UML--Creater/blob/master/UMLSequenceExample.png)
+[![UMLSequenceExample.png](https://i.loli.net/2020/10/22/8QujP6W9BiglYFw.png)](https://github.com/tianxunaicaoke/UML--Creater/blob/master/UMLSequenceExample.png)
 
 ### Know Issue:
     1. For class UML, the inner class not support very fine, will update in V1.0.2 version.
