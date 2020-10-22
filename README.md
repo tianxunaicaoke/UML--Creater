@@ -71,7 +71,7 @@ Example *-- ExampleA
 ~~~
 >And the png will also generated under the 'XXModule'\build\intermediates\classes\debug\UML
 
-![avatar](https://github.com/tianxunaicaoke/UML--Creater/blob/master/UMLExample.png)
+![UMLSequenceExample.png](https://i.loli.net/2020/10/22/8QujP6W9BiglYFw.png)
 
 
 >The parameter of IncludeClass annotation has default values
